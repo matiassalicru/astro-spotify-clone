@@ -1,7 +1,8 @@
-import { colors } from './colors';
+import { colors } from "./colors";
 
 export interface Playlist {
   id: string;
+  albumId: number;
   title: string;
   color: (typeof colors)[keyof typeof colors];
   cover: string;
@@ -11,162 +12,310 @@ export interface Playlist {
 export const playlists: Playlist[] = [
   {
     id: '1',
-    title: 'Electronic Party',
-    color: colors.teal,
+    albumId: 1,
+    title: "Chill Lo-Fi Music",
+    color: colors.yellow,
     cover:
-      'https://res.cloudinary.com/dp3ppkxo5/image/upload/v1693776174/spotify-astro/playlist_1_yci5uf.jpg',
-    artists: ['Avicii', 'Alok'],
+      "https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353",
+    artists: ["NoSpirit", "Casiio"],
   },
   {
     id: '2',
-    title: 'Trance',
+    albumId: 2,
+    title: "Lo-Fi Chill Session",
     color: colors.green,
     cover:
-      'https://res.cloudinary.com/dp3ppkxo5/image/upload/v1693776174/spotify-astro/playlist_2_f9ymlx.jpg',
-    artists: ['Tiesto', 'Armin Van Buuren'],
+      "https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187",
+    artists: ["Kupla", "Blue Fox"],
   },
   {
     id: '3',
-    title: 'Trap Vibes',
+    albumId: 3,
+    title: "Study Session",
     color: colors.rose,
     cover:
-      'https://res.cloudinary.com/dp3ppkxo5/image/upload/v1693776175/spotify-astro/playlist_3_grshca.jpg',
-    artists: ['Post Malone', 'Travis Scott', '21 savage'],
+      "https://f4.bcbits.com/img/a1435058381_65.jpg",
+    artists: ["Tenno", "xander", "Team Astro"],
   },
   {
     id: '4',
-    title: 'Beatles Classics',
-    color: colors.red,
+    albumId: 4,
+    title: "Blue Note Study Time",
+    color: colors.blue,
     cover:
-      'https://res.cloudinary.com/dp3ppkxo5/image/upload/v1693776175/spotify-astro/playlist_4_ap5xnb.jpg',
-    artists: ['The Beatles'],
+      "https://f4.bcbits.com/img/a1962013209_16.jpg",
+    artists: ["Raimu", "Yasumu"],
   },
   {
     id: '5',
-    title: 'Electronic Dance',
-    color: colors.pink,
+    albumId: 5,
+    title: "Chau Saura Session",
+    color: colors.purple,
     cover:
-      'https://res.cloudinary.com/dp3ppkxo5/image/upload/v1693776175/spotify-astro/playlist_5_erjyb7.jpg',
-    artists: ['Deadmau5'],
+      "https://f4.bcbits.com/img/a2793859494_16.jpg",
+    artists: ["Chau Saura", "amies", "kyu"],
   },
   {
     id: '6',
-    title: 'Cow songs',
-    color: colors.gray,
+    albumId: 6,
+    title: "Like a Necessity",
+    color: colors.orange,
     cover:
-      'https://res.cloudinary.com/dp3ppkxo5/image/upload/v1693776474/spotify-astro/R-15112137-1586815179-1911_fsyl58.jpg',
-    artists: ['Saint Hilda', 'Canada Buffalo'],
+      "https://f4.bcbits.com/img/a0363730459_16.jpg",
+    artists: ["WFS", "Nadav Cohen"],
   },
 ];
 
-export const morePlaylists = [
-  ...playlists.map((item) => ({
-    ...item,
-    id: item.id + 'a',
-  })),
-];
+export const morePlaylists = playlists.map((item) => ({
+  ...item,
+  id: item.id + "_more",
+}))
 
-export const sidebarPlaylists = [
-  ...playlists.map((item) => ({
-    ...item,
-    id: item.id + '_side',
-  })),
-];
+export const sidebarPlaylists = playlists.map((item) => ({
+  ...item,
+  id: item.id + "_side",
+}))
 
 export const allPlaylists = [
   ...playlists,
   ...morePlaylists,
   ...sidebarPlaylists,
-];
+]
 
-interface Song {
-  id: string;
+export interface Song {
+  id: number;
+  albumId: number;
   title: string;
   image: string;
   artists: string[];
   album: string;
   duration: string;
 }
-const songScale = 'w_40,h_40,c_scale';
+
 export const songs: Song[] = [
   {
-    id: '1',
-    title: 'The Nights',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776175/spotify-astro/song_1_qitfwl.jpg`,
-    artists: ['Avicii'],
-    album: 'The Days / Nights',
-    duration: '2:56',
+    "id": 1,
+    "albumId": 1,
+    "title": "Moonlit Walk",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353`,
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "3:12"
   },
   {
-    id: '2',
-    title: 'Saint-Tropez',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776175/spotify-astro/song_2_cijs8v.jpg`,
-    artists: ['Post Malone'],
-    album: "Hollywood's Bleeding",
-    duration: '2:23',
+    "id": 2,
+    "albumId": 1,
+    "title": "Coffee Daze",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353`,
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "4:07"
   },
   {
-    id: '3',
-    title: 'SICKO MODE',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776176/spotify-astro/song_3_td9ncs.jpg`,
-    artists: ['Travis Scott', 'Drake'],
-    album: 'ASTROWORLD',
-    duration: '5:13',
+    "id": 3,
+    "albumId": 1,
+    "title": "Skyline Serenade",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353`,
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "3:50"
   },
   {
-    id: '4',
-    title: 'Blinding Lights',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776176/spotify-astro/song_4_lwumgu.png`,
-    artists: ['The Weeknd'],
-    album: 'After Hours',
-    duration: '3:22',
+    "id": 4,
+    "albumId": 1,
+    "title": "Urban Echoes",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353`,
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "3:30"
   },
   {
-    id: '5',
-    title: 'Shape of You',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776175/spotify-astro/song_5_rd5xqa.jpg`,
-    artists: ['Ed Sheeran'],
-    album: '÷ (Divide)',
-    duration: '3:53',
+    "id": 5,
+    "albumId": 1,
+    "title": "Night's End",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353`,
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "4:20"
   },
   {
-    id: '6',
-    title: 'Uptown Funk',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776175/spotify-astro/song_6_f1lt7y.jpg`,
-    artists: ['Mark Ronson', 'Bruno Mars'],
-    album: 'Uptown Special',
-    duration: '4:30',
+    "id": 1,
+    "albumId": 2,
+    "title": "Silent Rain",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187`,
+    "artists": ["Urban Nocturne"],
+    "album": "Midnight Tales",
+    "duration": "3:40"
   },
   {
-    id: '7',
-    title: 'Bad Guy',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776175/spotify-astro/song_7_m7f0mh.jpg`,
-    artists: ['Billie Eilish'],
-    album: 'When We All Fall Asleep, Where Do We Go?',
-    duration: '3:14',
+    "id": 2,
+    "albumId": 2,
+    "title": "Lost Pages",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187`,
+    "artists": ["Urban Nocturne"],
+    "album": "Midnight Tales",
+    "duration": "3:20"
   },
   {
-    id: '8',
-    title: 'Yesterday',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776175/spotify-astro/song_8_hwxisr.jpg`,
-    artists: ['The Beatles'],
-    album: 'Today & Tomorrow',
-    duration: '4:38',
+    "id": 3,
+    "albumId": 2,
+    "title": "Midnight Tales",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187`,
+    "artists": ["Urban Nocturne"],
+    "album": "Midnight Tales",
+    "duration": "3:50"
   },
   {
-    id: '9',
-    title: 'Havana',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776176/spotify-astro/song_9_szemzp.jpg`,
-    artists: ['Camila Cabello', 'Young Thug'],
-    album: 'Camila',
-    duration: '3:37',
+    "id": 4,
+    "albumId": 2,
+    "title": "City Lights",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187`,
+    "artists": ["Urban Nocturne"],
+    "album": "Midnight Tales",
+    "duration": "3:30"
   },
   {
-    id: '10',
-    title: 'Radioactive',
-    image: `https://res.cloudinary.com/dp3ppkxo5/image/upload/${songScale}/v1693776176/spotify-astro/song_10_sz0cib.jpg`,
-    artists: ['Imagine Dragons'],
-    album: 'Night Visions',
-    duration: '3:07',
+    "id": 5,
+    "albumId": 2,
+    "title": "Night Drive",
+    "image": `https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187`,
+    "artists": ["Urban Nocturne"],
+    "album": "Midnight Tales",
+    "duration": "4:20"
   },
-];
+  {
+    "id": 1,
+    "albumId": 3,
+    "title": "Lunar",
+    "image": `https://f4.bcbits.com/img/a1435058381_65.jpg`,
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "3:40"
+  },
+  {
+    "id": 2,
+    "albumId": 3,
+    "title": "Go go go!",
+    "image": `https://f4.bcbits.com/img/a1435058381_65.jpg`,
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "3:20"
+  },
+  {
+    "id": 3,
+    "albumId": 3,
+    "title": "Keep focus!",
+    "image": `https://f4.bcbits.com/img/a1435058381_65.jpg`,
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "2:40"
+  },
+  {
+    "id": 4,
+    "albumId": 3,
+    "title": "JavaScript is the way",
+    "image": `https://f4.bcbits.com/img/a1435058381_65.jpg`,
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "3:10"
+  },
+  {
+    "id": 5,
+    "albumId": 3,
+    "title": "No more TypeScript for me",
+    "image": `https://f4.bcbits.com/img/a1435058381_65.jpg`,
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "2:10"
+  },
+  {
+    "id": 1,
+    "albumId": 4,
+    "title": "Lunar",
+    "image": "https://f4.bcbits.com/img/a1962013209_16.jpg",
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "3:40"
+  },
+  {
+    "id": 2,
+    "albumId": 4,
+    "title": "Go go go!",
+    "image": "https://f4.bcbits.com/img/a1962013209_16.jpg",
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "3:20"
+  },
+  {
+    "id": 3,
+    "albumId": 4,
+    "title": "Keep focus!",
+    "image": "https://f4.bcbits.com/img/a1962013209_16.jpg",
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "2:40"
+  },
+  {
+    "id": 4,
+    "albumId": 4,
+    "title": "JavaScript is the way",
+    "image": "https://f4.bcbits.com/img/a1962013209_16.jpg",
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "3:10"
+  },
+  {
+    "id": 5,
+    "albumId": 4,
+    "title": "No more TypeScript for me",
+    "image": "https://f4.bcbits.com/img/a1962013209_16.jpg",
+    "artists": ["Tenno"],
+    "album": "Study Session",
+    "duration": "2:10"
+  },
+  {
+    "id": 1,
+    "albumId": 5,
+    "title": "Moonlit Walk",
+    "image": "https://f4.bcbits.com/img/a2793859494_16.jpg",
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "3:12"
+  },
+  {
+    "id": 2,
+    "albumId": 5,
+    "title": "Coffee Daze",
+    "image": "https://f4.bcbits.com/img/a2793859494_16.jpg",
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "4:07"
+  },
+  {
+    "id": 3,
+    "albumId": 5,
+    "title": "Skyline Serenade",
+    "image": "https://f4.bcbits.com/img/a2793859494_16.jpg",
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "3:50"
+  },
+  {
+    "id": 4,
+    "albumId": 5,
+    "title": "Urban Echoes",
+    "image": "https://f4.bcbits.com/img/a2793859494_16.jpg",
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "3:30"
+  },
+  {
+    "id": 5,
+    "albumId": 5,
+    "title": "Night's End",
+    "image": "https://f4.bcbits.com/img/a2793859494_16.jpg",
+    "artists": ["LoFi Dreamer"],
+    "album": "Chill Lo-Fi Music",
+    "duration": "4:20"
+  },
+]
