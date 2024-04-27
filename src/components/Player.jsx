@@ -1,23 +1,22 @@
 import { Slider } from '@/components/Slider';
 import { usePlayerStore } from '@/store/playerStore';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 export const Play = () => (
   <svg role='img' viewBox='0 0 16 16' width={16} height={16}>
     <path d='M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z'></path>
   </svg>
 );
-
 export const Pause = () => (
   <svg role='img' viewBox='0 0 16 16' width={16} height={16}>
     <path d='M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z'></path>
   </svg>
 );
-
 export const VolumeMax = () => (
   <svg
-    role='presentation'
-    aria-label='Volume high'
+    width={16}
+    height={16}
+    fill='currentColor'
     aria-hidden='true'
     id='volume-icon'
     viewBox='0 0 16 16'>
@@ -27,18 +26,19 @@ export const VolumeMax = () => (
 );
 export const VolumeMid = () => (
   <svg
-    role='presentation'
-    aria-label='Volume medium'
+    fill='currentColor'
     aria-hidden='true'
-    id='volume-icon'
+    width={16}
+    height={16}
     viewBox='0 0 16 16'>
     <path d='M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.642 3.642 0 0 1-1.33-4.967 3.639 3.639 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.139 2.139 0 0 0 0 3.7l5.8 3.35V2.8l-5.8 3.35zm8.683 6.087a4.502 4.502 0 0 0 0-8.474v1.65a2.999 2.999 0 0 1 0 5.175v1.649z'></path>
   </svg>
 );
 export const VolumeLow = () => (
   <svg
-    role='presentation'
-    aria-label='Volume low'
+    width={16}
+    height={16}
+    fill='currentColor'
     aria-hidden='true'
     id='volume-icon'
     viewBox='0 0 16 16'>
@@ -47,20 +47,40 @@ export const VolumeLow = () => (
 );
 export const VolumeSilence = () => (
   <svg
-    role='presentation'
-    aria-label='Volume off'
+    fill='currentColor'
     aria-hidden='true'
-    id='volume-icon'
+    width={16}
+    height={16}
     viewBox='0 0 16 16'>
     <path d='M13.86 5.47a.75.75 0 0 0-1.061 0l-1.47 1.47-1.47-1.47A.75.75 0 0 0 8.8 6.53L10.269 8l-1.47 1.47a.75.75 0 1 0 1.06 1.06l1.47-1.47 1.47 1.47a.75.75 0 0 0 1.06-1.06L12.39 8l1.47-1.47a.75.75 0 0 0 0-1.06z'></path>
     <path d='M10.116 1.5A.75.75 0 0 0 8.991.85l-6.925 4a3.642 3.642 0 0 0-1.33 4.967 3.639 3.639 0 0 0 1.33 1.332l6.925 4a.75.75 0 0 0 1.125-.649v-1.906a4.73 4.73 0 0 1-1.5-.694v1.3L2.817 9.852a2.141 2.141 0 0 1-.781-2.92c.187-.324.456-.594.78-.782l5.8-3.35v1.3c.45-.313.956-.55 1.5-.694V1.5z'></path>
   </svg>
 );
 
-// TODO: Move volume control to this component
 export const VolumeControl = () => {
-  
-}
+  const volume = usePlayerStore((state) => state.volume);
+  const setVolume = usePlayerStore((state) => state.setVolume);
+
+  return (
+    <div class='flex justify-center gap-x-2'>
+      {volume < 0.1 && <VolumeSilence />}
+      {volume > 0.1 && volume < 25 && <VolumeLow />}
+      {volume > 25 && volume < 50 && <VolumeMid />}
+      {volume > 50 && volume < 101 && <VolumeMax />}
+      <Slider
+        defaultValue={[100]}
+        max={100}
+        min={0}
+        className='w-[95px]'
+        onValueChange={(value) => {
+          const [newVolume] = value;
+          const volumeValue = newVolume / 100;
+          setVolume(newVolume);
+        }}
+      />
+    </div>
+  );
+};
 const CurrentSong = ({ image, title, artists }) => {
   return (
     <div className={` flex items-center gap-5 relative overflow-hidden`}>
@@ -69,8 +89,10 @@ const CurrentSong = ({ image, title, artists }) => {
       </picture>
 
       <div className='flex flex-col'>
-        <h3 className='font-semibold text-sm block'>{title}</h3>
-        <span className='text-xs opacity-80'>{artists?.join(', ')}</span>
+        <h3 className='font-semibold text-sm block'>{title || 'Titulo'}</h3>
+        <span className='text-xs opacity-80'>
+          {artists?.join(', ') || 'Artistas'}
+        </span>
       </div>
     </div>
   );
@@ -102,7 +124,7 @@ export function Player() {
   };
 
   return (
-    <div className='flex flex-row justify-between w-full px-4 z-50'>
+    <div className='grid grid-cols-3 w-full px-4 z-50'>
       <div>
         <CurrentSong {...currentMusic.song} />
       </div>
@@ -118,19 +140,8 @@ export function Player() {
         </div>
       </div>
 
-      <div className='grid place-content-center'>
-        <Slider
-          defaultValue={[100]}
-          max={100}
-          min={0}
-          className='w-[95px]'
-          onValueChange={(value) => {
-            const [newVolume] = value;
-            const volumeValue = newVolume / 100;
-            volumeRef.current = volumeValue;
-            audioRef.current.volume = newVolume / 100;
-          }}
-        />
+      <div className='flex justify-end items-center '>
+        <VolumeControl />
       </div>
     </div>
   );
